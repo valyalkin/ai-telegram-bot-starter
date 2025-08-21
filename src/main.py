@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from src.api import telegram
 from src.configuration.app_lifespan import lifespan
 
 
@@ -18,6 +19,8 @@ def fastapi_application():
         allow_methods=["*"],  # Allow all methods
         allow_headers=["*"],  # Allow all headers
     )
+
+    app.include_router(telegram.router)
 
     return app
 
