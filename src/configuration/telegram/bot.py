@@ -16,6 +16,7 @@ class TelegramBotService:
 
         dispatcher = Dispatcher()
         telegram_router = Router(name="telegram")
+        self._router = telegram_router
         dispatcher.include_router(telegram_router)
 
         self._dispatcher = dispatcher
@@ -56,6 +57,9 @@ class TelegramBotService:
 
     def get_bot(self) -> Bot:
         return self._bot
+
+    def get_router(self) -> Router:
+        return self._router
 
 telegram_bot_service = TelegramBotService(telegram_settings=telegram_settings)
 
