@@ -6,7 +6,6 @@ from redis.asyncio.connection import BlockingConnectionPool, Retry
 from redis.backoff import ExponentialBackoff
 from redis.exceptions import ConnectionError, TimeoutError, BusyLoadingError
 
-from fastapi import Request
 
 
 class RedisSettings(BaseSettings):
@@ -87,10 +86,3 @@ class AsyncRedisConnection:
             raise RuntimeError("Redis client is not initialized.")
 
 redis_connection = AsyncRedisConnection()
-
-async def get_redis_client(request: Request):
-
-    if not hasattr(request.app.state, 'redis_connection'):
-        raise RuntimeError("Redis client is not initialized in the application state.")
-
-    return request.app.state.redis_connection.get_redis_client()
