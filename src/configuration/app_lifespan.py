@@ -4,6 +4,7 @@ from typing import Annotated
 from fastapi import FastAPI, Depends
 
 from src.ai_bot.langgraph_bot_service import get_langgraph_bot_service
+from src.configuration.postgres.postgres_config import postgres_connection_service
 from src.configuration.redis.redis_service import redis_connection_service
 from src.configuration.telegram.bot import telegram_bot_service
 
@@ -23,6 +24,7 @@ async def lifespan(
     langgraph_bot_service = get_langgraph_bot_service(telegram_bot_service)
     await langgraph_bot_service.set_bot_commands()
 
+    await postgres_connection_service.initialize_db_connection()
 
     yield
 

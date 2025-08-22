@@ -1,8 +1,13 @@
 import logging
 from typing import Annotated
 
-from fastapi import APIRouter, Request, Header
+import asyncpg
+from fastapi import APIRouter, Request, Header, Depends
 from aiogram import types
+
+from src.ai_bot.user.user_service import UserService, get_user_service
+from src.api.model.user import BotUser
+from src.configuration.postgres.postgres_config import postgres_settings
 from src.configuration.telegram.bot import TelegramBotService, TelegramBot
 
 from src.configuration.telegram.telegram_config import telegram_settings
@@ -23,3 +28,17 @@ async def bot_webhook(update: dict,
     dispatcher = telegram_bot_service.get_dispatcher()
     bot = telegram_bot_service.get_bot()
     await dispatcher.feed_update(bot=bot, update=telegram_update)
+
+@router.post("/user/register")
+async def register_user(
+    user: BotUser,
+    user_service: Annotated[UserService, Depends(get_user_service)],
+):
+    """
+    Register a new user in the bot.
+    This endpoint is used to register a new user in the bot.
+    """
+    await user_service.register_user(user)
+    # Here you would typically save the user to a database or perform some action
+    # For now, we will just log the user information
+    logging.info(f"Registering user: {user}")
