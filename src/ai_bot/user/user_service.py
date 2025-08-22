@@ -30,5 +30,18 @@ class UserService:
                 user.telegram_id
             )
 
+    async def is_user_registered(self, telegram_id: int) -> bool:
+        pool = self._db.get_connection()
+        async with pool.acquire() as conn:
+            result = await conn.fetchrow(
+                'SELECT * FROM users WHERE telegram_id = $1',
+                telegram_id
+            )
+            return result is not None
+
+
 def get_user_service(db: Annotated[PostgresConnectionService, Depends(get_postgres_connection)]) -> UserService:
     return UserService(db)
+
+
+UserServiceAnnotated = Annotated[UserService, Depends(get_user_service)]

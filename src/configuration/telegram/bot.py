@@ -52,6 +52,19 @@ class TelegramBotService:
             logging.error(f"Can't set webhook - {e}")
             raise RuntimeError("Can't set telegram webhook")
 
+    async def set_bot_commands(self):
+        commands = [
+            BotCommand(command="/id", description="👋 Get my ID"),
+            BotCommand(command="/start", description="🚀 Start the bot"),
+        ]
+        try:
+            await self._bot.set_my_commands(commands)
+            logger.info("Bot commands set successfully")
+        except Exception as e:
+            logger.error(f"Can't set commands - {e}")
+
+
+
     def get_dispatcher(self) -> Dispatcher:
         return self._dispatcher
 
