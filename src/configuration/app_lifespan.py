@@ -31,3 +31,4 @@ async def lifespan(
     yield
 
     await redis_connection_service.disconnect()
+    await postgres_connection_service.close_db_connection()
