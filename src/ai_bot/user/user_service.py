@@ -1,18 +1,16 @@
 from typing import Annotated
 from fastapi import Depends
 from src.api.model.user import BotUser
-from src.configuration.postgres.postgres_config import PostgresConnectionService, get_postgres_connection
+from src.configuration.postgres.postgres_config import PostgresConnectionService, postgres_connection_service
 
 
 class UserService:
     def __init__(self, db: PostgresConnectionService):
         self._db: PostgresConnectionService = db
 
-    async def register_user(self, user: BotUser):
-
+    async def create_users_table(self):
         pool = self._db.get_connection()
         async with pool.acquire() as conn:
-
             await conn.execute(
                 '''
                 CREATE TABLE IF NOT EXISTS users (
@@ -21,6 +19,11 @@ class UserService:
                 )
                 '''
             )
+
+    async def register_user(self, user: BotUser):
+
+        pool = self._db.get_connection()
+        async with pool.acquire() as conn:
 
             await conn.execute(
                 '''
@@ -40,8 +43,6 @@ class UserService:
             return result is not None
 
 
-def get_user_service(db: Annotated[PostgresConnectionService, Depends(get_postgres_connection)]) -> UserService:
-    return UserService(db)
+user_service = UserService(db=postgres_connection_service)
 
-
-UserServiceAnnotated = Annotated[UserService, Depends(get_user_service)]
+UserServiceAnnotated = Annotated[UserService, Depends(lambda: user_service)]

@@ -45,6 +45,3 @@ class PostgresConnectionService:
 
 
 postgres_connection_service = PostgresConnectionService()
-
-def get_postgres_connection() -> PostgresConnectionService:
-    return postgres_connection_service

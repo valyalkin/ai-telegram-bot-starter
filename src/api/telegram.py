@@ -5,7 +5,7 @@ import asyncpg
 from fastapi import APIRouter, Request, Header, Depends
 from aiogram import types
 
-from src.ai_bot.user.user_service import UserService, get_user_service
+from src.ai_bot.user.user_service import UserService, UserServiceAnnotated
 from src.api.model.user import BotUser
 from src.configuration.postgres.postgres_config import postgres_settings
 from src.configuration.telegram.bot import TelegramBotService, TelegramBot
@@ -32,7 +32,7 @@ async def bot_webhook(update: dict,
 @router.post("/user/register")
 async def register_user(
     user: BotUser,
-    user_service: Annotated[UserService, Depends(get_user_service)],
+    user_service: UserServiceAnnotated,
 ):
     """
     Register a new user in the bot.
