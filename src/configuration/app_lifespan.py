@@ -23,7 +23,7 @@ async def lifespan(
 
     # telegram
     await telegram_bot_service.set_webhook()
-    await telegram_bot_service.set_bot_commands()
+    await langgraph_bot_service.set_bot_commands()
 
     # users
     await user_service.create_users_table()

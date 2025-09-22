@@ -1,13 +1,11 @@
 import logging
 from typing import Annotated
 
-import asyncpg
-from fastapi import APIRouter, Request, Header, Depends
+from fastapi import APIRouter, Header
 from aiogram import types
 
 from src.ai_bot.user.user_service import UserService, UserServiceAnnotated
 from src.api.model.user import BotUser
-from src.configuration.postgres.postgres_config import postgres_settings
 from src.configuration.telegram.bot import TelegramBotService, TelegramBot
 
 from src.configuration.telegram.telegram_config import telegram_settings
