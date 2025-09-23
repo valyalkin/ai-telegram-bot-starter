@@ -1,16 +1,18 @@
 from typing import Annotated
 
-from src.configuration.redis.redis_service import RedisClient
-from src.configuration.telegram.telegram_config import TelegramSettings, telegram_settings
+from src.configuration.telegram.telegram_config import (
+    TelegramSettings,
+    telegram_settings,
+)
 from aiogram import Router, Dispatcher, Bot
-from aiogram.types import WebhookInfo, BotCommand
+from aiogram.types import WebhookInfo
 from fastapi import Depends
 import logging
 
 logger = logging.getLogger(__name__)
 
-class TelegramBotService:
 
+class TelegramBotService:
     def __init__(self, telegram_settings: TelegramSettings):
         self._telegram_settings = telegram_settings
 
@@ -42,7 +44,7 @@ class TelegramBotService:
             token = self._telegram_settings.auth_token
 
             await self._bot.set_webhook(
-                url = f"{base_url}{path}",
+                url=f"{base_url}{path}",
                 secret_token=token,
                 drop_pending_updates=current_webhook_info.pending_update_count > 0,
                 max_connections=40,
@@ -61,11 +63,7 @@ class TelegramBotService:
     def get_router(self) -> Router:
         return self._router
 
+
 telegram_bot_service = TelegramBotService(telegram_settings=telegram_settings)
 
 TelegramBot = Annotated[TelegramBotService, Depends(lambda: telegram_bot_service)]
-
-
-
-
-

@@ -9,9 +9,7 @@ from redis.exceptions import ConnectionError, TimeoutError, BusyLoadingError
 
 class RedisSettings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=".env",
-        extra='ignore',
-        env_prefix="redis_"
+        env_file=".env", extra="ignore", env_prefix="redis_"
     )
 
     host: str
@@ -24,7 +22,7 @@ class RedisConnectionService:
     def __init__(self):
         self.settings = RedisSettings()
         self._client: Optional[redis.Redis] = None
-    
+
     async def connect(self) -> redis.Redis:
         """Initialize Redis client with connection pool"""
         if self._client is not None:
@@ -41,14 +39,11 @@ class RedisConnectionService:
             decode_responses=True,
             health_check_interval=30,
             retry=Retry(
-                backoff=ExponentialBackoff(
-                    base=1,
-                    cap=30
-                ),
+                backoff=ExponentialBackoff(base=1, cap=30),
                 retries=10,
-                supported_errors=(ConnectionError, TimeoutError)
+                supported_errors=(ConnectionError, TimeoutError),
             ),
-            retry_on_error=[BusyLoadingError, ConnectionError, TimeoutError]
+            retry_on_error=[BusyLoadingError, ConnectionError, TimeoutError],
         )
 
         self._client = redis.Redis(connection_pool=connection_pool)

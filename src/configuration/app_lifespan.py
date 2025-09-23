@@ -1,7 +1,6 @@
 from contextlib import asynccontextmanager
-from typing import Annotated
 
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI
 
 from src.ai_bot.langgraph_bot_service import langgraph_bot_service
 from src.ai_bot.user.user_service import user_service
@@ -11,10 +10,7 @@ from src.configuration.telegram.bot import telegram_bot_service
 
 
 @asynccontextmanager
-async def lifespan(
-        app: FastAPI
-):
-
+async def lifespan(app: FastAPI):
     # redis
     await redis_connection_service.connect()
 

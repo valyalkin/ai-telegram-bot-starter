@@ -7,12 +7,9 @@ from redis.backoff import ExponentialBackoff
 from redis.exceptions import ConnectionError, TimeoutError, BusyLoadingError
 
 
-
 class RedisSettings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=".env",
-        extra='ignore',
-        env_prefix="redis_"
+        env_file=".env", extra="ignore", env_prefix="redis_"
     )
 
     host: str
@@ -23,8 +20,8 @@ class RedisSettings(BaseSettings):
 
 redis_settings = RedisSettings()
 
-class AsyncRedisConnection:
 
+class AsyncRedisConnection:
     def __init__(self):
         self._redis_client: Optional[redis.Redis] = None
 
@@ -48,17 +45,14 @@ class AsyncRedisConnection:
             decode_responses=True,
             health_check_interval=30,
             retry=Retry(
-                backoff=ExponentialBackoff(
-                    base=1,
-                    cap=30
-                ),
+                backoff=ExponentialBackoff(base=1, cap=30),
                 retries=10,
-                supported_errors=(ConnectionError, TimeoutError)
+                supported_errors=(ConnectionError, TimeoutError),
             ),
-            retry_on_error=[BusyLoadingError, ConnectionError, TimeoutError]
+            retry_on_error=[BusyLoadingError, ConnectionError, TimeoutError],
         )
 
-        self ._redis_client = redis.Redis(
+        self._redis_client = redis.Redis(
             connection_pool=connection_pool,
         )
 
@@ -72,8 +66,6 @@ class AsyncRedisConnection:
         else:
             return self._redis_client
 
-
-
     async def close_connection(self):
         """
         Close the Redis connection.
@@ -84,5 +76,6 @@ class AsyncRedisConnection:
             self._redis_client = None
         else:
             raise RuntimeError("Redis client is not initialized.")
+
 
 redis_connection = AsyncRedisConnection()

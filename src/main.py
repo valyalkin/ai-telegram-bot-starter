@@ -5,11 +5,7 @@ from src.configuration.app_lifespan import lifespan
 
 
 def fastapi_application():
-
-    app = FastAPI(
-        title="AI Telegram App",
-        lifespan=lifespan
-    )
+    app = FastAPI(title="AI Telegram App", lifespan=lifespan)
 
     # Add CORS middleware to allow requests from any origin
     app.add_middleware(

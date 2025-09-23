@@ -1,4 +1,3 @@
-import asyncio
 import uuid
 
 from langgraph.prebuilt import create_react_agent
@@ -16,16 +15,15 @@ agent = create_react_agent(
     You are a helpful assistant. 
     Answer the question in the format which would fit telegram message format, do not return markdown.
     """,
-    checkpointer=checkpointer
+    checkpointer=checkpointer,
 )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Run the agent
     response = agent.invoke(
         input={"messages": [{"role": "user", "content": "How is it going?"}]},
-        config={"configurable": {"thread_id": str(uuid.uuid4())}}
+        config={"configurable": {"thread_id": str(uuid.uuid4())}},
     )
 
-    print(response['messages'][-1].content)
-
+    print(response["messages"][-1].content)
