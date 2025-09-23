@@ -15,7 +15,7 @@ class TelegramSettings(BaseSettings):
     auth_token: str
 
 
-telegram_settings = TelegramSettings()
+telegram_settings = TelegramSettings() # type: ignore
 
 
-TelegramSettings = Annotated[TelegramSettings, Depends(lambda: telegram_settings)]
+TelegramSettings = Annotated[TelegramSettings, Depends(lambda: telegram_settings)] # type: ignore

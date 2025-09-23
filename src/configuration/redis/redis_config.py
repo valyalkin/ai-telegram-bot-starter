@@ -18,7 +18,7 @@ class RedisSettings(BaseSettings):
     password: str
 
 
-redis_settings = RedisSettings()
+redis_settings = RedisSettings() # type: ignore
 
 
 class AsyncRedisConnection:

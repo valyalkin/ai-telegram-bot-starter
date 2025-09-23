@@ -54,7 +54,7 @@ class RedisConnectionService:
     async def get_client(self) -> redis.Redis:
         """Get Redis client, connect if not already connected"""
         if self._client is None:
-            await self.connect()
+            return await self.connect()
         return self._client
 
     async def disconnect(self):

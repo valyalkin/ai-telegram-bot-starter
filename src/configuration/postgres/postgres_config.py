@@ -12,7 +12,7 @@ class PostgresSettings(BaseSettings):
     connection_string: str
 
 
-postgres_settings = PostgresSettings()
+postgres_settings = PostgresSettings() # type: ignore
 
 
 class PostgresConnectionService:
