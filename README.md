@@ -70,7 +70,8 @@ ngrok http 8000 --url <YOUR DOMAIN>
 Copy the domain address and paste it to the TELEGRAM_WEBHOOK_URL value in the.env file.
 
 
-4. Set up the bot 
+4. Set up the bot
+
 Follow the [Guide](https://arabind-meher.medium.com/creating-a-telegram-bot-with-botfather-a-step-by-step-guide-605e954de647)
 
 After creating the bot, copy bot token to and paste it to TELEGRAM_BOT_TOKEN value in .env file.
