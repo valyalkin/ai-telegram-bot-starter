@@ -79,7 +79,11 @@ After creating the bot, copy bot token to and paste it to TELEGRAM_BOT_TOKEN val
 
 Create an account on [OpenAI](https://platform.openai.com/account/api-keys) and copy the API key to the OPENAI_API_KEY value in .env file.
 
+6. Run the bot
 
+```shell
+uv run fastapi dev src/main.py 
+```
 
 
 
